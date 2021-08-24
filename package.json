@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rimraf lib",
     "prepare": "husky install",
-    "install": "tsc",
+    "install": "tsc --project tsconfig.json",
     "build": "tsc",
     "lint": "eslint . --ext .js,ts",
     "format": "eslint . --ext .js,ts --fix",

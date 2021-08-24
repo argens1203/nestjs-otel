@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TraceService {
-  public getSpan(): Span {
+  public getSpan(): Span | undefined {
     return trace.getSpan(context.active());
   }
 

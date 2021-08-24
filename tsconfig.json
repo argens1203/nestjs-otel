@@ -12,5 +12,6 @@
     "baseUrl": "./",
     "incremental": true
   },
+  "include": ["./**/*"],
   "exclude": ["node_modules", "lib", "tests", "examples"]
 }

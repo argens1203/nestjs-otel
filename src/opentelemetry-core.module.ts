@@ -21,7 +21,6 @@ import { OpenTelemetryModule } from './opentelemetry.module';
  *
  * @internal
  */
-@Global()
 @Module({})
 export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
   private readonly logger = new Logger('OpenTelemetryModule');
@@ -54,6 +53,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
         TraceService,
         MetricService,
       ],
+      global: options.isGlobal,
     };
   }
 

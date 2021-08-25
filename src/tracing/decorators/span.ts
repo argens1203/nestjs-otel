@@ -1,6 +1,12 @@
-import { context, trace } from '@opentelemetry/api';
+import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 
-export function Span(name?: string) {
+type Param = {
+  name?: string;
+  setStatus?: boolean;
+};
+
+export function Span(param: Param = {}) {
+  const { name, setStatus = true } = param;
   return (
     target: any,
     propertyKey: string,
@@ -9,17 +15,29 @@ export function Span(name?: string) {
     const method = propertyDescriptor.value;
     // eslint-disable-next-line no-param-reassign
     propertyDescriptor.value = function PropertyDescriptor(...args: any[]) {
-      const currentSpan = trace.getSpan(context.active());
       const tracer = trace.getTracer('default');
+      const span = tracer.startSpan(
+        name || `${target.constructor.name}.${propertyKey}`,
+      );
 
-      return context.with(trace.setSpan(context.active(), currentSpan), () => {
-        const span = tracer.startSpan(
-          name || `${target.constructor.name}.${propertyKey}`,
-        );
+      return context.with(trace.setSpan(context.active(), span), () => {
         if (method.constructor.name === 'AsyncFunction') {
-          return method.apply(this, args).finally(() => {
-            span.end();
-          });
+          return method.apply(this, args)
+            .then((r) => {
+              if (setStatus) {
+                span.setStatus({ code: SpanStatusCode.OK });
+              }
+              return r;
+            })
+            .catch((e) => {
+              if (setStatus) {
+                span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+              }
+              throw e;
+            })
+            .finally(() => {
+              span.end();
+            });
         }
         const result = method.apply(this, args);
         span.end();

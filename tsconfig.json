@@ -6,12 +6,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "target": "es2020",
     "sourceMap": true,
     "outDir": "./lib",
     "baseUrl": "./",
     "incremental": true
   },
-  "include": ["./**/*"],
   "exclude": ["node_modules", "lib", "tests", "examples"]
 }

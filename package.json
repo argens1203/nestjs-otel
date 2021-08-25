@@ -45,9 +45,7 @@
     "@opentelemetry/sdk-node": "^0.22.0",
     "@opentelemetry/metrics": "^0.22.0",
     "opentelemetry-node-metrics": "^1.0.2",
-    "response-time": "^2.3.2"
-  },
-  "devDependencies": {
+    "response-time": "^2.3.2",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@nestjs/common": "^7.6.18",

@@ -1,12 +1,6 @@
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 
-type Param = {
-  name?: string;
-  setStatus?: boolean;
-};
-
-export function Span(param: Param = {}) {
-  const { name, setStatus = true } = param;
+export function Span(name?: string, setStatus = true) {
   return (
     target: any,
     propertyKey: string,
